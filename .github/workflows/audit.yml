@@ -1,0 +1,31 @@
+name: audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # On installe le tap depuis *ce* commit, et non depuis GitHub : sur une
+      # pull request, tapper le dépôt distant auditerait main et laisserait
+      # passer précisément ce qu'on cherche à vérifier.
+      - name: Poser le tap depuis ce commit
+        run: |
+          TAP="$(brew --repository)/Library/Taps/kestro-app/homebrew-tap"
+          rm -rf "$TAP"
+          mkdir -p "$(dirname "$TAP")"
+          cp -R "$GITHUB_WORKSPACE" "$TAP"
+
+      - name: Style
+        run: brew style --cask kestro-app/tap/kestro
+
+      # --online télécharge les DMG et vérifie les empreintes : c'est le seul
+      # contrôle qui attrape une URL morte ou un sha256 qui ne correspond plus.
+      - name: Audit
+        run: brew audit --cask --strict --online kestro-app/tap/kestro
