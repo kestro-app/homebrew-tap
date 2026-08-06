@@ -1,9 +1,9 @@
 cask "kestro" do
   arch arm: "-arm64"
 
-  version "0.2.0"
-  sha256 arm:   "38e6729aa47d41fc152a86b82c8bc592256f0d95ccc17620274989be23962270",
-         intel: "f828bf1635bd0de726e783b59d65d920732d91fba2f34190b1dfefe5ca67cd23"
+  version "0.2.1"
+  sha256 arm:   "6d83e44417d513f91eb6ead0a7982d243e801233bf9028cac689059da548343e",
+         intel: "e34bf61b08503873fecc3c524cd1d10b319149f7f03ff15b017c805c4a0eac18"
 
   url "https://storage.googleapis.com/kestro-updates/latest/Kestro-#{version}#{arch}.dmg",
       verified: "storage.googleapis.com/kestro-updates/"
